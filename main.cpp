@@ -149,6 +149,8 @@ double** crearMatrizAdj(int size) {
 
 double** matrizAdjunta(double** matriz, int size) {
 
+    cout << "En matriz adjunta" << endl;
+            
     double** matrizAdj = NULL;
     matrizAdj = crearMatrizAdj(size);
 
@@ -199,31 +201,38 @@ double** matrizInversa(double** invertida, int size, int determinante){
 //calcula el cofactor de una matriz
 
 double cofactor(double** matriz, int i, int j, int size) {
-
+    
+    cout << "En cofactor: " << endl;
     double calculo = 0;
 
     double** subMatriz = NULL;
 
     subMatriz = submatriz(matriz, i, j, size);
+    
+    cout << "regresamos de submatriz" << endl;
 
     calculo += potencia(-1, i + j) + determinante(matriz, size);
-
+    
+    cout << " retorno del calculo" << endl;
     return calculo;
 
 }
 
 double determinante(double** matriz, int size) {
-
+    
+    cout << "En determinante " << endl;
     int valor = 0;
 
     if (size == 2) {
-
+        cout << "If 2 x 2 determinante";
         valor = (matriz[0][0] * matriz[1][1]) - (matriz[0][1] * matriz[1][0]);
 
         return valor;
 
     } else {
-
+        
+        cout << "Else determinante " << endl;
+        
         for (int i = 0; i < size; i++) {
             valor += matriz[0][i] * cofactor(matriz, 0, i, size);
         }
@@ -241,7 +250,8 @@ int potencia(int n, int base) {
     if (n == 0) {
         return 1;
     } else {
-        return base * (potencia(n - 1, base));
+        
+        return base * (potencia(n + 1, base));
     }
 
 
@@ -250,27 +260,50 @@ int potencia(int n, int base) {
 //devuelve la submatriz de una matriz
 
 double** submatriz(double** matriz, int filaElim, int colElim, int size) {
-
+    
     double** matrix = NULL;
-
-    matrix = new double* [size - 1];
+     int tam = size - 1;
+    matrix = new double* [tam];
 
     for (int i = 0; i < size; i++) {
-        matrix[i] = new double [size - 1];
+        matrix[i] = new double [tam];
     }
-
+    
+    int c =  0, d = 0;
 
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
 
             if (i != filaElim && j != colElim) {
-                matrix[i][j] = matriz[i][j];
+                
+                if(c < tam && d < tam){
+                    matrix[c][d] = matriz[i][j];
+                    
+                    if(d < tam)
+                    d++;
+                }
             }
-
+            
+            
+            if(d == tam){
+                d = 0;
+                 c++;
+                
+            }
+            
+            if(i == 4 && j ==4){
+                c = 0;
+                d = 0;
+            }
+            
         }
+       
     }
-
+    cout << "Retorno de matriz";
+    
+    
     return matrix;
+    
 
 }
 
